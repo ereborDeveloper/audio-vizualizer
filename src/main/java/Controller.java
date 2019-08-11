@@ -1,5 +1,3 @@
-package sample;
-
 import javafx.animation.*;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
@@ -61,7 +59,6 @@ public class Controller {
 
     @FXML
     private void initialize() {
-//        System.out.print("af");
         shapes = new Shapes();
         shapes.initShape();
         shapes.getShapes();
@@ -85,8 +82,6 @@ public class Controller {
                         "(x: " + event.getX() + ", y: " + event.getY() + ") -- " +
                                 "(sceneX: " + event.getSceneX() + ", sceneY: " + event.getSceneY() + ") -- " +
                                 "(screenX: " + event.getScreenX() + ", screenY: " + event.getScreenY() + ")";
-
-//                System.out.println(msg);
             }
         });
     }
@@ -96,24 +91,21 @@ public class Controller {
                 new KeyFrame(Duration.seconds(.03), new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent event) {
-                        int a = (int) (Math.random() * 10);
-                        int shift = 0;
-                        /*if ((a % 2) == 0) {
-                            shift *= -1;
-                        }*/
-//                        System.out.println("Круги падают");
                         for (int i = 0; i < circles.getChildren().size(); i++) {
-                            circles.getChildren().get(i).setTranslateY(circles.getChildren().get(i).getTranslateY() + rms * 3 * rms + 0.1);
+                            double currentRms = rms;
+                            double currentPeak = peak;
+                            circles.getChildren().get(i).setTranslateY(circles.getChildren().get(i).getTranslateY() + Math.sqrt(currentRms) * 15);
                             circles.getChildren().get(i).setTranslateX(circles.getChildren().get(i).getTranslateX() + Math.random() * 0.2);
-                            circles.getChildren().get(i).setOpacity(circles.getChildren().get(i).opacityProperty().doubleValue() - Math.random() * 0.06); /*circles.getChildren().get(i).opacityProperty().doubleValue() - Math.random() * 0.01 + */
+                            circles.getChildren().get(i).setOpacity(circles.getChildren().get(i).opacityProperty().doubleValue() + currentPeak * 3 - currentPeak * 3.05); /*circles.getChildren().get(i).opacityProperty().doubleValue() - Math.random() * 0.01 + */
                             if (circles.getChildren().get(i).getScaleX() >= 0) {
-                                circles.getChildren().get(i).setScaleX(circles.getChildren().get(i).getScaleX() - 0.002);
-                                circles.getChildren().get(i).setScaleY(circles.getChildren().get(i).getScaleY() - 0.002);
+                                circles.getChildren().get(i).setScaleX(circles.getChildren().get(i).getScaleX() + currentPeak * 1 - currentPeak * 1.01);
+                                circles.getChildren().get(i).setScaleY(circles.getChildren().get(i).getScaleY() + currentPeak * 1 - currentPeak * 1.01);
                             }
 
                             double width = circles.getChildren().get(i).getBoundsInParent().getMaxX() - circles.getChildren().get(i).getBoundsInParent().getMinX();
                             double height = circles.getChildren().get(i).getBoundsInParent().getMaxY() - circles.getChildren().get(i).getBoundsInParent().getMinY();
-                            double temp = -(X - circles.getChildren().get(i).getBoundsInParent().getMinX() - circles.getChildren().get(i).getScene().getX());
+                            // TODO: Мыщка
+/*                            double temp = -(X - circles.getChildren().get(i).getBoundsInParent().getMinX() - circles.getChildren().get(i).getScene().getX());
                             double tempY = -(Y - circles.getChildren().get(i).getBoundsInParent().getMinY() - circles.getChildren().get(i).getScene().getY());
                             if ((temp <= width && temp >= -width / 4) || (tempY <= height && tempY >= - height/4)) {
 //ЛОГИКА
@@ -123,7 +115,7 @@ public class Controller {
                                 if((tempY <= height && tempY >= - height/4)) {
                                     circles.getChildren().get(i).setTranslateY(circles.getChildren().get(i).getTranslateY() + 5);
                                 }
-                            }
+                            }*/
                             /*double temp2 = (X - (circles.getChildren().get(i).getBoundsInParent().getMinX()  + circles.getChildren().get(i).getScene().getX()));
                             if (temp2 <= width/1.5 && temp2 >= -width/3) {
                                 circles.getChildren().get(i).setTranslateX(circles.getChildren().get(i).getTranslateX() - 5);
@@ -131,7 +123,6 @@ public class Controller {
                             circles.getChildren().get(i).setOpacity(circles.getChildren().get(i).opacityProperty().doubleValue() + peak * 0.02);
                         }
                         long tm = (System.nanoTime() / 10000000);
-                        //System.out.println(tm);
                         if (tm % 4 == 0) {
                             //
                             Shapes.size = (int) (Double.valueOf(tSize.getText()) / 20);
@@ -147,9 +138,10 @@ public class Controller {
 //                        if (tm % 1 == 0) {
 //                        System.out.println(circles.getChildren().size());
                         for (int i = 0; i < circles.getChildren().size(); i++) {
-                            if (circles.getChildren().get(i).opacityProperty().doubleValue() < 0.01 || circles.getChildren().get(i).getScaleY() < 0.03) {
+                            if (circles.getChildren().get(i).opacityProperty().doubleValue() < 0.01 || circles.getChildren().get(i).getScaleY() < 0.03 || circles.getChildren().get(i).getTranslateX() > 1080) {
                                 circles.getChildren().remove(i);
                             }
+//                            System.out.println(circles.getChildren().size());
                         }
 //                        }
                     }
@@ -172,7 +164,7 @@ public class Controller {
         for (Shape sh : shapes.getShapes()) {
             i += 0.01;
             double[] arr = sh.getCoord();
-            Circle circle = new Circle((Math.random() + 1) * 10 * (1 + arr[1]), (1 + Math.random()) * arr[2] * 10, ((1 - peak * 0.5) * 30) * ((Math.random()) + Double.valueOf(textSlide.getText()) / 2));
+            Circle circle = new Circle((Math.random() + 1) * 20 * (1 + arr[1]), (1 + Math.random()) * arr[2] * 10, ((1 - peak * 0.5) * 30) * ((Math.random()) + Double.valueOf(textSlide.getText()) / 2));
             if (circle.getRadius() > max) max = circle.getRadius();
 //            if(circle.getRadius() != max) {
             DropShadow shadow1 = new DropShadow();

@@ -1,5 +1,3 @@
-package sample;
-
 import javafx.application.Platform;
 
 import javax.sound.sampled.*;
@@ -20,10 +18,10 @@ class Recorder implements Runnable {
 
     @Override
     public void run() {
-        System.out.println("a");
+        System.out.println(mixersList);
         while (true) {
             try {
-                line = AudioSystem.getTargetDataLine(format, mixersList.get(5));
+                line = AudioSystem.getTargetDataLine(format, mixersList.get(3));
                 line.open(format, N);
                 System.out.println("Line opened.");
             } catch (LineUnavailableException e) {

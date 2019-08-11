@@ -1,5 +1,3 @@
-package sample;
-
 public class Circle<T extends Number> extends Shape {
     T radius;
     T x;

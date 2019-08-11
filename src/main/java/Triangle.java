@@ -1,5 +1,3 @@
-package sample;
-
 public class Triangle<T extends Number> extends Shape {
     public T a;
     public T b;

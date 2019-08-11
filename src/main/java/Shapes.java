@@ -1,5 +1,3 @@
-package sample;
-
 
 import java.util.ArrayList;
 
@@ -62,5 +60,3 @@ public class Shapes {
     }
 
 }
-
-//по аналогии можно будет обрабатывать таблицы, скажем, на поиск id_service или чего-то в духе

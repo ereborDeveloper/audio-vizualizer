@@ -1,5 +1,3 @@
-package sample;
-
 import javafx.application.Platform;
 
 public class Animation implements Runnable {
